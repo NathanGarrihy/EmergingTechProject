@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<title>WebService</title>
+
+	<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+	<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+	<!--CSS/template - https://bootsnipp.com/snippets/7nmOW-->
+	<style>
+		body {
+			background: -webkit-linear-gradient(left, #0072ff, #00c6ff);
+		}
+
+		.contact-form {
+			background: #fff;
+			margin-top: 10%;
+			margin-bottom: 5%;
+			width: 70%;
+		}
+
+		.contact-form .form-control {
+			border-radius: 1rem;
+		}
+
+		.contact-image {
+			text-align: center;
+		}
+
+		.contact-image img {
+			border-radius: 6rem;
+			width: 11%;
+			margin-top: -3%;
+			transform: rotate(29deg);
+		}
+
+		.contact-form form {
+			padding: 14%;
+		}
+
+		.contact-form form .row {
+			margin-bottom: -7%;
+		}
+
+		.contact-form h3 {
+			margin-bottom: 8%;
+			margin-top: -10%;
+			text-align: center;
+			color: #0062cc;
+		}
+
+		.contact-form .btnContact {
+			width: 50%;
+			border: none;
+			border-radius: 1rem;
+			padding: 1.5%;
+			background: #dc3545;
+			font-weight: 600;
+			color: #fff;
+			cursor: pointer;
+		}
+	</style>
+</head>
+
+<body>
+	<div class="container contact-form">
+		<div class="contact-image">
+			<img src="https://i.ibb.co/nDNmZtF/download-1.png" alt="windTurbine" />
+		</div>
+		<form method="post">
+			<h3>Web service for predicting wind turbine power output from wind speed values</h3>
+			<form class="col-sm-4" id="form">
+				<div>
+				  <input type="number" name="speed" class="form-control mb-2 mr-sm-2" id="speed" placeholder="Enter wind speed"
+					required />
+				</div>
+				<button type="button" class="btn btn-primary" onclick="process();">Get Turbine Power</button><br /><br />
+				<div>
+				  <label for="pow">Wind Turbine Power</label>
+				  <input type="name" class="form-control mb-2 mr-sm-2" id="pow" readonly/>
+				</div>
+			  </form>
+		</form>
+	</div>
+</body>
+
+<script>
+	// function to handle data
+	function pow(newData) {
+		value = fetch('/process/pow', newData)
+			.then(data => { return data.json() })
+			.then(res => { return res })
+			.catch(error => console.log(error))
+		return value
+	}
+
+	// Takes in a given speed and returns power based off model
+	async function process() {
+		var speed = document.getElementById("speed").value
+		document.getElementById('pow').value = "Please wait...";
+
+		const newData = {
+			body: JSON.stringify({ speed: speed }),
+			method: "POST"
+		}
+		document.getElementById('pow').value = await pow(newData);
+		console.log("pow " + await pow(newData))
+	}
+</script>
+</html>

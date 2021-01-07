@@ -1,0 +1,8 @@
+# Here is where to put the files that are required for
+# the project to work
+
+tensorflow==2.4.0
+Flask==1.1.2
+numpy==1.19.2
+matplotlib == 3.3.2
+pandas == 1.1.3
