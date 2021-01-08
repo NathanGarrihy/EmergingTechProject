@@ -73,24 +73,28 @@
 			<h3>Web service for predicting wind turbine power output from wind speed values</h3>
 			<form class="col-sm-4" id="form">
 				<div>
-				  <input type="number" name="speed" class="form-control mb-2 mr-sm-2" id="speed" placeholder="Enter wind speed"
-					required />
+					<input type="number" name="wSpeedValue" class="form-control mb-2 mr-sm-2" id="wSpeedValue"
+						placeholder="Enter wind speed" required />
 				</div>
-				<button type="button" class="btn btn-primary" onclick="process();">Get Turbine Power</button><br /><br />
+				<button type="button" class="btn btn-primary" onclick="process();">Get Turbine
+					Power</button><br /><br />
 				<div>
-				  <label for="pow">Wind Turbine Power</label>
-				  <input type="name" class="form-control mb-2 mr-sm-2" id="pow" readonly/>
+					<label for="pow">Wind Turbine Power</label>
+					<input type="name" class="form-control mb-2 mr-sm-2" id="pow" readonly />
 				</div>
-			  </form>
+			</form>
 		</form>
 	</div>
 </body>
 
 <script>
 	// function to handle data
-	function pow(newData) {
-		value = fetch('/process/pow', newData)
-			.then(data => { return data.json() })
+	function pow(wSpeedValue) {
+		value = fetch('/process/pow',
+			{
+				body: JSON.stringify({ wSpeedValue: wSpeedValue }),
+				method: "POST"
+			}).then(data => { return data.json() })
 			.then(res => { return res })
 			.catch(error => console.log(error))
 		return value
@@ -98,15 +102,10 @@
 
 	// Takes in a given speed and returns power based off model
 	async function process() {
-		var speed = document.getElementById("speed").value
-		document.getElementById('pow').value = "Please wait...";
-
-		const newData = {
-			body: JSON.stringify({ speed: speed }),
-			method: "POST"
-		}
-		document.getElementById('pow').value = await pow(newData);
-		console.log("pow " + await pow(newData))
+		var wSpeedValue = document.getElementById("wSpeedValue").value
+		document.getElementById('pow').value = "Loading...";
+		document.getElementById('pow').value = await pow(wSpeedValue);
 	}
 </script>
+
 </html>
